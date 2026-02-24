@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Lexicon — A precise, curated dictionary for tech, science, language and history."/>
+  <title>Lexicon — Precise Definitions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Linux+Libertine+Display:ital@0;1&family=Linux+Libertine:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <!-- Anti-flash theme restore -->
+  <script>!function(){var t=localStorage.getItem('lex-theme')||'light';document.documentElement.setAttribute('data-theme',t)}()</script>
+</head>
+<body>
+
+<!-- ═══ LOADER ═══════════════════════════════════════════════════ -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-logo">Lexicon</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- ═══ NAVBAR ═══════════════════════════════════════════════════ -->
+<div id="navbar">
+  <div class="nb-inner">
+    <a href="#" class="nb-logo">Lexicon</a>
+    <nav class="nb-links" id="nb-links" aria-label="Site navigation">
+      <a href="#browse" class="nb-link">Browse</a>
+      <a href="#submit-section" class="nb-link">Contribute</a>
+      <a href="#about" class="nb-link">About</a>
+    </nav>
+    <div class="nb-actions">
+      <button id="theme-toggle" class="nb-icon-btn" aria-label="Toggle theme" title="Toggle dark mode">
+        <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="icon-sun"  viewBox="0 0 24 24" class="hidden"><circle cx="12" cy="12" r="5"/><g stroke-width="1.5"><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g></svg>
+      </button>
+      <button id="menu-toggle" class="nb-icon-btn nb-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile dropdown -->
+  <div id="mobile-nav" class="mobile-nav" aria-hidden="true">
+    <a href="#browse"          class="mobile-link">Browse</a>
+    <a href="#submit-section"  class="mobile-link">Contribute</a>
+    <a href="#about"           class="mobile-link">About</a>
+  </div>
+</div>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow reveal">Open Reference</p>
+    <h1 class="hero-title reveal rd1">Words, <em>precisely</em> defined.</h1>
+    <p class="hero-sub reveal rd2">A curated dictionary for technology, science, language, and history — built for clarity, free forever.</p>
+
+    <div class="search-box reveal rd3">
+      <label for="search-input" class="sr-only">Search definitions</label>
+      <svg class="search-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7.5"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
+      <input id="search-input" type="search" class="search-input" placeholder="Search words, definitions, concepts…" autocomplete="off" spellcheck="false"/>
+      <button id="search-clear" class="search-clear" hidden aria-label="Clear search">&#10005;</button>
+      <span class="search-hint" aria-hidden="true">/ to focus</span>
+    </div>
+
+    <div class="hero-stats reveal rd3">
+      <div class="stat"><span id="word-count" class="stat-n">–</span><span class="stat-l">Definitions</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-n" id="cat-count">–</span><span class="stat-l">Categories</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-n">Free</span><span class="stat-l">Always</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BROWSE ════════════════════════════════════════════════════ -->
+<main id="browse">
+  <div class="browse-inner">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <div class="sidebar-block">
+        <h3 class="sidebar-heading">Category</h3>
+        <div class="cat-pills" id="cat-pills">
+          <button class="cat-pill active" data-category="All">All</button>
+          <button class="cat-pill" data-category="Tech">Tech</button>
+          <button class="cat-pill" data-category="Science">Science</button>
+          <button class="cat-pill" data-category="Language">Language</button>
+          <button class="cat-pill" data-category="History">History</button>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <h3 class="sidebar-heading">Alphabetical</h3>
+        <div id="alpha-nav" class="alpha-grid" aria-label="Filter by first letter"></div>
+      </div>
+
+      <div class="sidebar-block">
+        <h3 class="sidebar-heading">Sort by</h3>
+        <div class="sort-pills">
+          <button class="sort-pill active" data-sort="alpha">A – Z</button>
+          <button class="sort-pill" data-sort="recent">Newest</button>
+        </div>
+      </div>
+
+      <button id="reset-btn" class="reset-btn" hidden>&#8635; Reset filters</button>
+
+    </aside>
+
+    <!-- Content -->
+    <div class="content-col">
+
+      <div class="results-bar" id="results-bar" aria-live="polite"></div>
+
+      <div id="card-grid" class="card-grid visible"></div>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <span class="empty-glyph">∅</span>
+        <h2 class="empty-title">No results found</h2>
+        <p class="empty-body">Try different keywords or clear your filters.</p>
+        <button class="empty-reset-btn" onclick="document.getElementById('reset-btn').click()">Clear all filters</button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ═══ SUBMIT ════════════════════════════════════════════════════ -->
+<section id="submit-section" class="submit-section">
+  <div class="submit-inner">
+    <div class="submit-head">
+      <h2 class="submit-title">Submit a Word</h2>
+      <p class="submit-sub">Know a term that belongs here? Add it to your local dictionary.</p>
+    </div>
+    <form id="submit-form" class="submit-form" novalidate>
+      <div class="form-row">
+        <div class="fg">
+          <label class="fl" for="f-word">Word *</label>
+          <input class="fi" type="text" id="f-word" name="word" placeholder="e.g. Sycophant" autocomplete="off" required/>
+        </div>
+        <div class="fg">
+          <label class="fl" for="f-cat">Category *</label>
+          <select class="fi" id="f-cat" name="category" required>
+            <option value="" disabled selected>Select…</option>
+            <option>Tech</option>
+            <option>Science</option>
+            <option>Language</option>
+            <option>History</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl" for="f-short">Brief definition *</label>
+        <input class="fi" type="text" id="f-short" name="short" placeholder="One clear sentence." autocomplete="off" required/>
+      </div>
+      <div class="fg">
+        <label class="fl" for="f-full">Full definition</label>
+        <textarea class="fi fi-ta" id="f-full" name="full" placeholder="Detailed explanation, etymology, usage…"></textarea>
+      </div>
+      <div class="form-footer">
+        <div id="form-status" class="form-status" aria-live="polite"></div>
+        <button type="submit" class="submit-btn">Submit word &#8594;</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- User submitted words list -->
+  <div id="submitted-words-section" class="submitted-section" hidden>
+    <div class="submit-inner">
+      <h3 class="sidebar-heading" style="margin-bottom:16px">Your Submissions</h3>
+      <div id="submitted-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═════════════════════════════════════════════════════ -->
+<footer id="about">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Lexicon</div>
+      <p class="footer-desc">A curated reference for the intellectually curious. Precise definitions across technology, science, language, and history. Open source, no ads, free forever.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Browse</h4>
+        <a href="#browse">All words</a>
+        <a href="#browse" onclick="quickFilter('Tech')">Technology</a>
+        <a href="#browse" onclick="quickFilter('Science')">Science</a>
+        <a href="#browse" onclick="quickFilter('Language')">Language</a>
+        <a href="#browse" onclick="quickFilter('History')">History</a>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="#submit-section">Contribute a word</a>
+        <a href="#about">About</a>
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&#169; 2025 Lexicon &mdash; Open source &amp; free</span>
+    <span>Built with HTML, CSS &amp; vanilla JS</span>
+  </div>
+</footer>
+
+<!-- Scroll-to-top -->
+<button id="scroll-top" class="scroll-top" hidden aria-label="Scroll to top">&#8593;</button>
+
+<!-- Modal overlay -->
+<div id="modal-overlay" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="modal-word-title">
+  <div class="modal-box">
+    <button id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+function quickFilter(cat) {
+  event.preventDefault();
+  if(typeof state!=='undefined'){
+    state.category=cat; state.activeLetter=null;
+    document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',b.dataset.category===cat));
+    document.getElementById('reset-btn').removeAttribute('hidden');
+    if(typeof applyFilters==='function') applyFilters();
+    document.getElementById('browse').scrollIntoView({behavior:'smooth'});
+  }
+}
+</script>
+</body>
+</html>
