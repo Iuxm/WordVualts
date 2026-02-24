@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lexicon — A premium, minimalist dictionary platform for precise definitions across technology, science, language, and history." />
+  <meta name="theme-color" content="#fafafa" />
+  <title>Lexicon — Precise Definitions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    (function() {
+      var saved = localStorage.getItem('lexicon-theme');
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', saved || system);
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen" role="status" aria-label="Loading Lexicon">
+    <div class="loading-wordmark">Lexicon</div>
+    <div class="loading-bar-track">
+      <div class="loading-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo" aria-label="Lexicon home">Lexi<span>con</span></a>
+        <ul class="nav-links" id="nav-links" role="list">
+          <li><a href="#definitions">Browse</a></li>
+          <li><a href="#submit">Submit</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+        <div class="nav-right">
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark and light mode" title="Toggle theme">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+          <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-tag reveal">Curated Definitions</div>
+    <h1 class="hero-title reveal reveal-delay-1" id="hero-title">Words,<br><em>precisely</em> defined.</h1>
+    <p class="hero-subtitle reveal reveal-delay-2">
+      A premium reference platform for the intellectually curious —
+      exploring tech, science, language, and history with editorial rigor.
+    </p>
+    <div class="search-wrapper reveal reveal-delay-3">
+      <label for="search-input" class="sr-only">Search definitions</label>
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="search" id="search-input" class="search-input"
+        placeholder="Search words, definitions, concepts…"
+        autocomplete="off" spellcheck="false" aria-label="Search definitions" />
+      <button class="search-clear" id="search-clear" aria-label="Clear search" title="Clear">&#10005;</button>
+    </div>
+    <div class="stats-bar reveal" aria-label="Platform statistics">
+      <div class="stat">
+        <span class="stat-number" id="total-count">–</span>
+        <span class="stat-label">Definitions</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat">
+        <span class="stat-number" id="category-count">–</span>
+        <span class="stat-label">Categories</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat">
+        <span class="stat-number">Free</span>
+        <span class="stat-label">Always</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="main" id="definitions" aria-label="Definitions browser">
+
+    <!-- FILTER BAR -->
+    <div class="filter-section" aria-label="Filter controls">
+      <div class="filter-row">
+        <span class="filter-label" id="cat-label">Category</span>
+        <div class="category-filters" id="category-filters" role="group" aria-labelledby="cat-label"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label" id="alpha-label">A–Z</span>
+        <nav class="alpha-nav" id="alpha-nav" aria-label="Filter by letter"></nav>
+      </div>
+    </div>
+
+    <!-- RESULTS BAR -->
+    <div class="results-bar" aria-live="polite" aria-atomic="true">
+      <span class="results-count" id="results-count"></span>
+      <button class="clear-filters-btn" id="clear-filters" aria-label="Clear all filters">Clear all filters</button>
+    </div>
+
+    <!-- DEFINITIONS -->
+    <div id="definitions-list" aria-label="Definitions"></div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="empty-state" role="status">
+      <span class="empty-glyph" aria-hidden="true">&#8709;</span>
+      <h2 class="empty-title">No words found</h2>
+      <p class="empty-text">Try adjusting your search or clearing the active filters.</p>
+    </div>
+
+    <!-- SUBMIT -->
+    <section id="submit" class="submit-section reveal" aria-labelledby="submit-title">
+      <div class="submit-header">
+        <h2 class="submit-title" id="submit-title">Submit a Word</h2>
+        <p class="submit-subtitle">
+          Know a term that deserves to be here? Suggest it below.
+          Submissions are saved locally in your browser.
+        </p>
+      </div>
+      <div class="submit-success" id="submit-success" role="status" aria-live="polite">
+        <div class="success-icon" aria-hidden="true">&#10003;</div>
+        <p class="success-message">Submission received.</p>
+        <p class="success-sub">Thank you — your word has been saved locally.</p>
+      </div>
+      <form class="submit-form" id="submit-form" novalidate aria-label="Word submission form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="word">Word <abbr title="required">*</abbr></label>
+            <input class="form-input" type="text" id="word" name="word" placeholder="e.g. Sycophant" required autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phonetic">Phonetic</label>
+            <input class="form-input" type="text" id="phonetic" name="phonetic" placeholder="e.g. /ˈsɪkəfænt/" autocomplete="off" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="partOfSpeech">Part of Speech</label>
+            <input class="form-input" type="text" id="partOfSpeech" name="partOfSpeech" placeholder="noun, verb, adjective…" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="category">Category <abbr title="required">*</abbr></label>
+            <select class="form-select" id="category" name="category" required>
+              <option value="" disabled selected>Select category</option>
+              <option value="Tech">Tech</option>
+              <option value="Science">Science</option>
+              <option value="Language">Language</option>
+              <option value="History">History</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="shortDef">Brief Definition <abbr title="required">*</abbr></label>
+          <input class="form-input" type="text" id="shortDef" name="shortDef" placeholder="One clear sentence…" required autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fullDef">Full Definition</label>
+          <textarea class="form-textarea" id="fullDef" name="fullDef" placeholder="Detailed explanation, context, usage…"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Submit Word &#8594;</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="about">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">Lexicon</div>
+        <p class="footer-desc">
+          A curated reference platform for words that matter — precise, clean, and always free.
+          Built for thinkers, makers, and the perpetually curious.
+        </p>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h4>Browse</h4>
+          <a href="#definitions">All Words</a>
+          <a href="#definitions" onclick="event.preventDefault();filterCategory('Tech')">Technology</a>
+          <a href="#definitions" onclick="event.preventDefault();filterCategory('Science')">Science</a>
+          <a href="#definitions" onclick="event.preventDefault();filterCategory('Language')">Language</a>
+          <a href="#definitions" onclick="event.preventDefault();filterCategory('History')">History</a>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <a href="#submit">Submit a Word</a>
+          <a href="#about">About Lexicon</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&#169; 2025 Lexicon. Open source &amp; free forever.</p>
+      <p class="footer-copy">Built with HTML, CSS &amp; vanilla JS — no frameworks.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    function filterCategory(cat) {
+      if (typeof State !== 'undefined' && typeof renderAll !== 'undefined') {
+        State.category = cat;
+        State.letter = 'all';
+        renderAll();
+        document.getElementById('definitions').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+
+</body>
+</html>
