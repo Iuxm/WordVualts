@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LexiBase</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    scroll-behavior: smooth;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid white;
+}
+
+h1 {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+}
+
+.search-bar {
+    margin: 20px auto;
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    width: 60%;
+    background: black;
+    border: 1px solid white;
+    color: white;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    background: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: gray;
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+}
+
+.category-btn {
+    border: 1px solid white;
+    background: black;
+    color: white;
+}
+
+.category-btn:hover {
+    background: white;
+    color: black;
+}
+
+.definition-container {
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.definition {
+    border-bottom: 1px solid white;
+    padding: 20px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.definition.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid white;
+    margin-top: 50px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>LEXIBASE</h1>
+</header>
+
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search a word...">
+    <button onclick="searchWord()">Search</button>
+</div>
+
+<div class="categories">
+    <button class="category-btn" onclick="filterCategory('tech')">Tech</button>
+    <button class="category-btn" onclick="filterCategory('science')">Science</button>
+    <button class="category-btn" onclick="filterCategory('language')">Language</button>
+</div>
+
+<div class="definition-container" id="definitions">
+
+    <div class="definition tech">
+        <h2>HTML</h2>
+        <p>HyperText Markup Language used to structure web pages.</p>
+    </div>
+
+    <div class="definition science">
+        <h2>Gravity</h2>
+        <p>A force that attracts two bodies toward each other.</p>
+    </div>
+
+    <div class="definition language">
+        <h2>Etymology</h2>
+        <p>The study of the origin of words and how their meanings change.</p>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 LexiBase
+</footer>
+
+<script>
+function searchWord() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let definitions = document.querySelectorAll('.definition');
+
+    definitions.forEach(def => {
+        let text = def.innerText.toLowerCase();
+        if (text.includes(input)) {
+            def.style.display = "block";
+        } else {
+            def.style.display = "none";
+        }
+    });
+}
+
+function filterCategory(category) {
+    let definitions = document.querySelectorAll('.definition');
+
+    definitions.forEach(def => {
+        if (def.classList.contains(category)) {
+            def.style.display = "block";
+        } else {
+            def.style.display = "none";
+        }
+    });
+}
+
+window.addEventListener("scroll", () => {
+    let defs = document.querySelectorAll(".definition");
+    defs.forEach(def => {
+        let position = def.getBoundingClientRect().top;
+        let screenPosition = window.innerHeight / 1.2;
+        if(position < screenPosition) {
+            def.classList.add("show");
+        }
+    });
+});
+</script>
+
+</body>
+</html>
